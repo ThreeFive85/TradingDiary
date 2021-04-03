@@ -17,3 +17,21 @@ export const getDiary = async(req, res) => { // async, await
         console.log(err)
     }
 }
+
+export const createDiary = async(req, res) => { // async, await
+
+    const {종목명, 종목형태, 매매형태, 매매단가, 매매수량, 매매금액, 매매일자} = req.body;
+
+    console.log(req.body)
+
+    const connection = await pool.getConnection();
+
+    try {
+        const data = await connection.query('insert into diary set ?', { 종목명: 종목명, 종목형태: 종목형태,
+        매매형태: 매매형태, 매매단가: 매매단가, 매매수량: 매매수량, 매매금액: 매매금액, 매매일자: 매매일자 })
+        
+        res.status(202).json(data[0])
+    } catch (err) {
+        console.log(err)
+    }
+}
