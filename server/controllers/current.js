@@ -26,19 +26,42 @@ export const createCurrentStock = async(req, res) => { // async, await
 
     const connection = await pool.getConnection();
 
-    try {
-        // const data = await connection.query('insert into currentStock set ?', { NAME: 종목명, 
-        //     CURRENT_COUNT: 매매수량, CURRENT_MONEY: 매매금액, FIRST_DAY: 매매일자 })
+    const insertData = {
+        NAME: 종목명, 
+        CURRENT_COUNT: 매매수량, 
+        CURRENT_MONEY: 매매금액, 
+        BUY_MONEY: 매매금액, 
+        SELL_MONEY: 0,
+        FIRST_DAY: 매매일자
+    }
 
-        //const [data, fields] = await connection.query(`INSERT INTO currentStock (NAME, CURRENT_COUNT, CURRENT_MONEY, FIRST_DAY) VALUES (${종목명}, ${매매수량}, ${매매금액}, ${매매일자}) ON DUPLICATE KEY UPDATE CURRENT_COUNT = CURRENT_COUNT + ${매매수량}, CURRENT_MONEY = CURRENT_MONEY + ${매매금액}, CURRENT_DAY = ${매매일자}`)
+    const selectQuery = 'select NAME from currentStock where NAME = '
+    const insertQuery = 'insert into currentStock set ?'
+    const plusQuery = 'update currentStock set current_count = current_count + ?,'+
+                        'CURRENT_MONEY = CURRENT_MONEY + ?, BUY_MONEY = BUY_MONEY + ?, CURRENT_DAY=? where NAME = '
+    const minusQuery = 'update currentStock set current_count = current_count - ?, '+
+                        'CURRENT_MONEY = CURRENT_MONEY - ?, SELL_MONEY = SELL_MONEY + ?, CURRENT_DAY=? where NAME = '
+
+    try {
         
-        const [result1, fields] = await connection.query(`select NAME from currentStock`, {NAME:종목명})
-        if (result1[0] === undefined) {
-            const [createData, fields1] = await connection.query('insert into currentStock set ?', {NAME: 종목명, CURRENT_COUNT: 매매수량, CURRENT_MONEY: 매매금액, FIRST_DAY: 매매일자})
-            res.status(202).json({createData})
+        if(매매형태 === '매수'){
+            const [result1, fields] = await connection.query(selectQuery+mysql.escape(req.body.종목명), {NAME:종목명})
+            if (result1[0] === undefined ) {
+                const [createData, fields1] = await connection.query(insertQuery, insertData)
+                res.status(202).json({createData})
+            } else {
+                const current_count = 매매수량
+                const current_money = 매매금액
+                const current_day = 매매일자
+                const [plusData, fields2] = await connection.query(plusQuery+mysql.escape(req.body.종목명), [current_count, current_money, current_money, current_day])
+                res.status(202).json({plusData})
+            }
         } else {
-            const [updateDate, fields2] = await connection.query(`update currentStock set NAME=?, CURRENT_COUNT = CURRENT_COUNT + ?, CURRENT_MONEY : CURRENT_MONEY + ?, CURRENT_DAY=?`, {NAME: 종목명, CURRENT_COUNT: 매매수량, CURRENT_MONEY: 매매금액, CURRENT_DAY: 매매일자})
-            res.status(202).json({updateDate})
+            const current_count = 매매수량
+            const current_money = 매매금액
+            const current_day = 매매일자
+            const [minusData, fields2] = await connection.query(minusQuery+mysql.escape(req.body.종목명), [current_count, current_money, current_money, current_day])
+            res.status(202).json({minusData})
         }
     } catch (err) {
         console.log(err)
