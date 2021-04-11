@@ -35,3 +35,4 @@ export const createDiary = async(req, res) => { // async, await
         console.log(err)
     }
 }
+
