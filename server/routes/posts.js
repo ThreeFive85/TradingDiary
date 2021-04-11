@@ -7,7 +7,5 @@ const router = express.Router();
 
 router.get('/', getDiary);
 router.post('/', createDiary);
-router.get('/', getCurrentStock);
-router.post('/', createCurrentStock);
 
 export default router;
