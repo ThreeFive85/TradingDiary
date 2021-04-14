@@ -6,9 +6,12 @@ const pool = mysql.createPool(db);
 export const getDiary = async(req, res) => { // async, await
 
     const connection = await pool.getConnection();
+    let query = 'SELECT 종목명, 종목형태, 매매형태, 매매단가, '+
+    `replace(매매수량, '.00000', '') AS 매매수량, `+
+    '매매금액, 매매일자 FROM diary'
 
     try {
-        let result = await connection.query("SELECT * FROM diary")
+        let result = await connection.query(query)
         if (result[0].length < 1) {
             throw new Error('nothing')
         }
