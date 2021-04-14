@@ -6,9 +6,13 @@ const pool = mysql.createPool(db);
 export const getCurrentStock = async(req, res) => { // async, await
 
     const connection = await pool.getConnection();
+    let query = 'SELECT NAME, '+
+    `replace(CURRENT_COUNT, '.00000', '') AS CURRENT_COUNT, `+
+    'CURRENT_MONEY, BUY_MONEY, SELL_MONEY, FIRST_DAY, CURRENT_DAY '+
+    'FROM currentStock WHERE CURRENT_COUNT > 0'
 
     try {
-        let result1 = await connection.query("SELECT * FROM currentStock WHERE CURRENT_COUNT > 0")
+        let result1 = await connection.query(query)
         let result2 = await connection.query("SELECT * FROM currentStock WHERE CURRENT_COUNT = 0")
         console.log(result2[0])
         if (result1[0].length < 1) {
