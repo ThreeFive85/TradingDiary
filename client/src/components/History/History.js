@@ -7,6 +7,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
+import Grid from '@material-ui/core/Grid';
 
 import useStyles from './styles';
 import { getDiary } from '../../actions/posts';
@@ -99,7 +100,10 @@ const History = () => {
     };
 
     return (
-        <Paper className={classes.root}>
+      <Paper className={classes.root}>
+        <Grid item xs={6} sm={3}>
+          <Paper className={classes.paper}>매매일지</Paper>
+        </Grid>
       <TableContainer className={classes.container}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
