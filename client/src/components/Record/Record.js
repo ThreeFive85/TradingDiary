@@ -2,12 +2,14 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
 import FormControl from '@material-ui/core/FormControl';
-import FormGroup from '@material-ui/core/FormGroup';
 import Button from '@material-ui/core/Button';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
+
 import { useDispatch, useSelector } from 'react-redux';
 
 import useStyles from './styles';
@@ -28,8 +30,8 @@ const Record = () => {
   const clear = () => {
     setPostData({
       "종목명" : '',
-      "종목형태": '',
-      "매매형태": '',
+      "종목형태": '종목형태',
+      "매매형태": '매매형태',
       "매매단가": '',
       "매매수량": '',
       "매매금액": '',
@@ -43,13 +45,16 @@ const Record = () => {
 
     const handleSubmit = (e) => {
       e.preventDefault();
-      dispatch(createDiary(postData));
+      // dispatch(createDiary(postData));
+      console.log(postData)
       clear()
     }
 
   return (
-    <div className={classes.root}>
-      <FormGroup className="MuiFormGroup-options" row >
+    <form className={classes.root} noValidate autoComplete="off">
+    <Grid item xs={6} sm={3}>
+        <Paper className={classes.paper}>등록</Paper>
+    </Grid>
         <TextField id="standard-basic" label="종목명" 
         value={postData.종목명}
         onChange={(e) => setPostData({
@@ -89,7 +94,7 @@ const Record = () => {
           value={postData.매매수량}
           onChange={(e) => setPostData({
             ...postData,
-            '매매수량': Number(e.target.value)
+            '매매수량': e.target.value
           })}
         />
         <TextField id="standard-basic" label="매매금액" 
@@ -114,8 +119,7 @@ const Record = () => {
         >
           <KeyboardArrowRightIcon fontSize="small" /> 등록
         </Button>
-      </FormGroup>
-    </div>
+        </form>
   );
 }
 
