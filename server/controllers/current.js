@@ -7,7 +7,7 @@ export const getCurrentStock = async(req, res) => { // async, await
 
     const connection = await pool.getConnection();
     let query = 'SELECT NAME, '+
-    `replace(CURRENT_COUNT, '.00000', '') AS CURRENT_COUNT, `+
+    `replace(CURRENT_COUNT, '.00000000', '') AS CURRENT_COUNT, `+
     'CURRENT_MONEY, BUY_MONEY, SELL_MONEY, FIRST_DAY, CURRENT_DAY '+
     'FROM currentStock WHERE CURRENT_COUNT > 0'
 
@@ -44,6 +44,8 @@ export const getCurrentStock = async(req, res) => { // async, await
         res.status(202).json(result1[0])
     } catch (err) {
         console.log(err)
+    } finally {
+        connection.release()
     }
 }
 
@@ -94,5 +96,7 @@ export const createCurrentStock = async(req, res) => { // async, await
         }
     } catch (err) {
         console.log(err)
+    } finally {
+        connection.release()
     }
 }
