@@ -7,7 +7,7 @@ export const getDiary = async(req, res) => { // async, await
 
     const connection = await pool.getConnection();
     let query = 'SELECT 종목명, 종목형태, 매매형태, 매매단가, '+
-    `replace(매매수량, '.00000', '') AS 매매수량, `+
+    `replace(매매수량, '.00000000', '') AS 매매수량, `+
     '매매금액, 매매일자 FROM diary'
 
     try {
@@ -18,6 +18,8 @@ export const getDiary = async(req, res) => { // async, await
         res.status(202).json(result[0])
     } catch (err) {
         console.log(err)
+    } finally {
+        connection.release()
     }
 }
 
@@ -36,6 +38,8 @@ export const createDiary = async(req, res) => { // async, await
         res.status(202).json(data[0])
     } catch (err) {
         console.log(err)
+    } finally {
+        connection.release()
     }
 }
 
