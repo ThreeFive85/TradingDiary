@@ -3,11 +3,11 @@ export default (current = [], action) => {
     switch (action.type) {
         // case DELETE:
         //     return posts.filter((post) => post._id !== action.payload);
-        // case UPDATE:
-        //     return posts.map((post) => post._id === action.payload._id ? action.payload : post);
-        case "FETCH_ALL":
+        // case "UPDATE_CUR":
+        //     return current.map((post) => post._name === action.payload._name ? action.payload : post);
+        case "FETCH_ALL_CUR":
             return action.payload;
-        // case "CREATE":
+        // case "CREATE_CUR":
         //     return [...current, action.payload];
         default:
             return current;
