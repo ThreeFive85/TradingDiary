@@ -21,3 +21,17 @@ Backend</br>
     <li>MySQL</li>
 <ul>
 </h4>
+<br/>
+<h3>화면 구성 (예시) </h3>
+<h4> 현재 보유 종목 리스트 <h4>
+<img src="picture/holding.png" />
+<br />
+<h4> 종목 등록 <h4>
+<img src="picture/submit.png" />
+<br />
+<h4> 매매 일지 리스트 <h4>
+<img src="picture/history.png" />
+<br />
+<h4> 거래 완료 종목 리스트 <h4>
+<img src="picture/complete.png" />
+<br />
