@@ -7,14 +7,12 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
-import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 
 import useStyles from './styles';
 import { getDiary } from '../../actions/posts';
 
-import { useSelector } from 'react-redux';
-
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 const columns = [
     { id: 'ID', label: '번호', minWidth: 25 },
@@ -51,28 +49,9 @@ const columns = [
         id: '매매일자',
         label: '매매일자',
         minWidth: 85,
+        // format: (value) => value.substring(0,10)
       },
   ];
-
-// const createData = (id, name, type1, type2, price1, count, price2, date) => {
-//     return { id, name, type1, type2, price1, count, price2, date };
-//   }
-// const rows = [
-//     createData(1, '삼성전자', '코스피', '매수', 5000, 100000, 500000000, '2019-01-01'),
-//     createData(1, '삼성전자', '코스피', '매수', 5000, 100000, 500000000, '2019-01-01'),
-//     createData(1, '삼성전자', '코스피', '매수', 5000, 100000, 500000000, '2019-01-01'),
-//     createData(1, '삼성전자', '코스피', '매수', 5000, 100000, 500000000, '2019-01-01'),
-//     createData(1, '삼성전자', '코스피', '매수', 5000, 100000, 500000000, '2019-01-01'),
-//     createData(1, '삼성전자', '코스피', '매수', 5000, 100000, 500000000, '2019-01-01'),
-//     createData(1, '삼성전자', '코스피', '매수', 5000, 100000, 500000000, '2019-01-01'),
-//     createData(1, '삼성전자', '코스피', '매수', 5000, 100000, 500000000, '2019-01-01'),
-//     createData(1, '삼성전자', '코스피', '매수', 5000, 100000, 500000000, '2019-01-01'),
-//     createData(1, '삼성전자', '코스피', '매수', 5000, 100000, 500000000, '2019-01-01'),
-//     createData(1, '삼성전자', '코스피', '매수', 5000, 100000, 500000000, '2019-01-01'),
-//     createData(1, '삼성전자', '코스피', '매수', 5000, 100000, 500000000, '2019-01-01'),
-//     createData(1, '삼성전자', '코스피', '매수', 5000, 100000, 500000000, '2019-01-01'),
-//     createData(1, '삼성전자', '코스피', '매수', 5000, 100000, 500000000, '2019-01-01'),
-// ]
 
 const History = () => {
 
@@ -84,7 +63,7 @@ const History = () => {
     const dispatch = useDispatch();
 
     const data = useSelector((state) => state.posts) // reduecers/index.js의 posts
-    console.log(data)
+    // console.log(data)
 
     useEffect(() => {
         dispatch(getDiary());
@@ -98,12 +77,10 @@ const History = () => {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
-
     return (
+      !data.length ? <div>기록데이터 없음</div> :
       <Paper className={classes.root}>
-        <Grid item xs={6} sm={3}>
-          <Paper className={classes.paper}>매매일지</Paper>
-        </Grid>
+      <Typography className={classes.heading}>매매일지</Typography>
       <TableContainer className={classes.container}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
@@ -125,7 +102,7 @@ const History = () => {
                   {columns.map((column) => {
                     const value = row[column.id];
                     return (
-                      <TableCell key={column.id}>
+                      <TableCell key={column.ID}>
                         {column.format && typeof value === 'number' ? column.format(value) : value}
                       </TableCell>
                     );
