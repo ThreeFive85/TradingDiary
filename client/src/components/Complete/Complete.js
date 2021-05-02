@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -6,33 +6,60 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
+import Accordion from '@material-ui/core/Accordion';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+import Typography from '@material-ui/core/Typography';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+
+import { getComplete } from '../../actions/complete';
+
+import { useSelector } from 'react-redux';
+
+import { useDispatch } from 'react-redux';
 
 import useStyles from './styles';
 
-function createData(name, calories, fat, carbs, protein, day1, day2) {
-    return { name, calories, fat, carbs, protein, day1, day2 };
-  }
-  
-  const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0, '20-10-11', '21-10-11'),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3, '20-10-11', '21-10-11'),
-    createData('Eclair', 262, 16.0, 24, 6.0, '20-10-11', '21-10-11'),
-    createData('Cupcake', 305, 3.7, 67, 4.3, '20-10-11', '21-10-11'),
-    createData('Gingerbread', 356, 16.0, 49, 3.9, '20-10-11', '21-10-11'),
-    createData('Gingerbread', 356, 16.0, 49, 3.9, '20-10-11', '21-10-11'),
-    createData('Gingerbread', 356, 16.0, 49, 3.9, '20-10-11', '21-10-11'),
-  ];
-
-
 const Holding = () => {
     const classes = useStyles();
+
+    const dispatch = useDispatch();
+
+    const datas = useSelector((state) => state.complete) // reduecers/index.js의 posts
+    // console.log(datas)
+
+    useEffect(() => {
+        dispatch(getComplete());
+    }, [dispatch]);
     
     return (
+      !datas.length ? 
+      <div className={classes.root}>
+        <Accordion>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+          >
+            <Typography className={classes.heading}>거래 완료 종목</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Typography className={classes.heading}>완료된 종목 데이터가 없습니다.</Typography>
+          </AccordionDetails>
+          </Accordion>
+      </div>
+       :
+      <div className={classes.root}>
+      <Accordion>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+        >
+          <Typography className={classes.heading}>거래 완료 종목</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
         <TableContainer component={Paper}>
-        <Grid item xs={6} sm={3}>
-          <Paper className={classes.paper}>정산 종목</Paper>
-        </Grid>
         <Table className={classes.table} aria-label="simple table">
           <TableHead>
             <TableRow>
@@ -46,22 +73,25 @@ const Holding = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
-              <TableRow key={row.name}>
+            {datas.map((data) => (
+              <TableRow key={data.name}>
                 <TableCell component="th" scope="row">
-                  {row.name}
+                  {data.name}
                 </TableCell>
-                <TableCell align="right">{row.calories}</TableCell>
-                <TableCell align="right">{row.fat}</TableCell>
-                <TableCell align="right">{row.carbs}</TableCell>
-                <TableCell align="right">{row.protein}</TableCell>
-                <TableCell align="right">{row.day1}</TableCell>
-                <TableCell align="right">{row.day2}</TableCell>
+                <TableCell align="right">{(data.buy_money).toLocaleString()}</TableCell>
+                <TableCell align="right">{(data.sell_money).toLocaleString()}</TableCell>
+                <TableCell align="right">{data.first_day.substring(0,10)}</TableCell>
+                <TableCell align="right">{data.final_day.substring(0,10)}</TableCell>
+                <TableCell align="right">{Math.round(((data.sell_money/data.buy_money)-1)* 100)}</TableCell>
+                <TableCell align="right">{(data.sell_money - data.buy_money).toLocaleString()}</TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
+      </AccordionDetails>
+      </Accordion>
+    </div>
     )
 }
 
