@@ -18,6 +18,7 @@ import { useDispatch } from 'react-redux';
 import useStyles from './styles';
 import {createDiary} from '../../actions/posts';
 import {getCurrent} from '../../actions/current';
+import {getComplete} from '../../actions/complete';
 import { format } from 'date-fns';
 
 const Record = () => {
@@ -57,7 +58,8 @@ const Record = () => {
 
     const handleChange = (e) => {
       e.preventDefault();
-      dispatch(getCurrent())
+      dispatch(getCurrent());
+      dispatch(getComplete());
     }
 
   return (
