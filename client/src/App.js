@@ -1,21 +1,24 @@
 import React from 'react'
 import { Container } from '@material-ui/core';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import HeaderBar from './components/HeaderBar/HeaderBar';
-import Holding from './components/Holding/Holding';
-import Record from './components/Record/Record';
+import Home from './components/Home/Home';
 import History from './components/History/History';
 import Complete from './components/Complete/Complete';
 
 const App = () => {
     return (
-        <Container maxWidth="lg">
+        <BrowserRouter>
+            <Container maxWidth="lg">
             <HeaderBar />
-            <Holding />
-            <Record />
-            <History />
-            <Complete />
-        </Container>
+                <Routes>
+                    <Route exact={true} path={"/"} element={<Home/>} />
+                    <Route exact={true} path={"/diary"} element={<History/>} />
+                    <Route exact={true} path={"/complete"} element={<Complete/>} />
+                </Routes>
+            </Container>
+        </BrowserRouter>
     )
 }
 
