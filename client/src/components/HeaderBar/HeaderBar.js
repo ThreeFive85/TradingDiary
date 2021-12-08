@@ -18,13 +18,13 @@ const HeaderBar = () => {
       <AppBar className={classes.root} position="static">
         <Toolbar className={classes.toolbar}>
           <div className={classes.buttons}>
-          <Button variant="contained" color="secondary">
+          <Button component={Link} to="/" variant="contained" color="secondary">
             main
           </Button>
-          <Button variant="contained" color="secondary">
+          <Button component={Link} to="/diary" variant="contained" color="secondary">
             history
           </Button>
-          <Button variant="contained" color="secondary">
+          <Button component={Link} to="/complete" variant="contained" color="secondary">
             rate
           </Button>
           </div>
