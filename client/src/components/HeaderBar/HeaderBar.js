@@ -3,16 +3,10 @@ import AppBar from '@material-ui/core/AppBar';
 import {Toolbar, Button} from '@material-ui/core';
 import { Link } from 'react-router-dom';
 
-import { useDispatch } from 'react-redux';
-// import Home from './components/Home/Home.js';
-
-import {getCurrent} from '../../actions/current';
-
 import useStyles from './styles';
 
 const HeaderBar = () => {
     const classes = useStyles();
-    const dispatch = useDispatch();
 
     return (
       <AppBar className={classes.root} position="static">
