@@ -11,6 +11,16 @@ export const getDiary = () => async (dispatch) => {
     }
 }
 
+export const getStock = (name) => async (dispatch) => {
+    try {
+        const { data } = await api.getStock(name);
+        // console.log(data);
+        dispatch({ type: 'GET_STOCK', payload: data });
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
 export const createDiary = (post) => async (dispatch) => {
     // console.log("post : ", post)
     try {
