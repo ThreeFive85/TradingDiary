@@ -9,6 +9,7 @@ import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
+import CachedIcon from '@material-ui/icons/Cached';
 
 import {useStyles, StyledTableCell, StyledTableRow } from './styles.js';
 import { getDiary, getStock } from '../../actions/posts';
@@ -37,6 +38,14 @@ const History = () => {
       })
     }
 
+    const refresh = (e) => {
+      e.preventDefault();
+      dispatch(getDiary());
+      setSearchData({
+        "name" : '',
+      })
+    }
+
     let cnt = 0;
 
     useEffect(() => {
@@ -44,8 +53,21 @@ const History = () => {
     }, [dispatch]);
 
     return (
-      !data.length ? <div>기록데이터 없음</div> : 
-      
+      !data.length ? 
+      <><Paper component="form" className={classes.root}>
+          <InputBase
+            className={classes.input}
+            placeholder="Search Stock Name"
+            inputProps={{ 'aria-label': 'search stock name' }}
+            onChange={(e) => setSearchData({ ...searchData, 'name': e.target.value })} />
+          <IconButton type="submit" className={classes.iconButton} aria-label="search" onClick={handleSubmit}>
+            <SearchIcon />
+          </IconButton>
+          <IconButton className={classes.iconButton} onClick={refresh}>
+            <CachedIcon />
+          </IconButton>
+        </Paper><div>기록데이터 없음</div></>
+      : 
       <><Paper component="form" className={classes.root}>
           <InputBase
             className={classes.input}
@@ -55,6 +77,9 @@ const History = () => {
           />
           <IconButton type="submit" className={classes.iconButton} aria-label="search" onClick={handleSubmit}>
             <SearchIcon />
+          </IconButton>
+          <IconButton className={classes.iconButton} onClick={refresh}>
+            <CachedIcon />
           </IconButton>
         </Paper>
         {/* 테이블 */}
