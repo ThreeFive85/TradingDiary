@@ -10,7 +10,7 @@ export default makeStyles((theme) => ({
         minWidth: 650,
       },
       heading: {
-        fontSize: theme.typography.pxToRem(15),
+        fontSize: theme.typography.pxToRem(35),
         fontWeight: theme.typography.fontWeightRegular,
       },
   }));

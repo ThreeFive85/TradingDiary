@@ -13,7 +13,7 @@ const App = () => {
             <Container maxWidth="lg">
             <HeaderBar />
                 <Routes>
-                    <Route exact={true} path={"/current"} element={<Home/>} />
+                    <Route exact={true} path={"/"} element={<Home/>} />
                     <Route exact={true} path={"/diary"} element={<History/>} />
                     <Route exact={true} path={"/complete"} element={<Complete/>} />
                 </Routes>
