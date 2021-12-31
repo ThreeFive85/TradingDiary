@@ -12,7 +12,7 @@ const HeaderBar = () => {
       <AppBar className={classes.root} position="static">
         <Toolbar className={classes.toolbar}>
           <div className={classes.buttons}>
-          <Button component={Link} to="/current" variant="contained" color="secondary">
+          <Button component={Link} to="/" variant="contained" color="secondary">
             main
           </Button>
           <Button component={Link} to="/diary" variant="contained" color="secondary">
