@@ -22,46 +22,42 @@ const Holding = () => {
 
     const datas = useSelector((state) => state.current) 
     // console.log(datas)
-    // if(!datas.NAME){
-    //   getCurrent(); 
-    // }
     
     useEffect(() => {
       dispatch(getCurrent());
     }, [dispatch]);
     return (
       !datas.length ? <div>현재 보유 종목 데이터가 없습니다</div> :
-          <TableContainer component={Paper} className={classes.root}>
-            <Typography className={classes.heading}>현재 보유 종목</Typography>
-            <Table className={classes.table} aria-label="simple table">
-              <TableHead>
-                <TableRow>
-                  <TableCell>종목</TableCell>
-                  <TableCell align="right">보유수량</TableCell>
-                  <TableCell align="right">투자금액&nbsp;(원)</TableCell>
-                  <TableCell align="right">매수금액&nbsp;(원)</TableCell>
-                  <TableCell align="right">매도금액&nbsp;(원)</TableCell>
-                  <TableCell align="right">최초투자일시</TableCell>
-                  <TableCell align="right">최근투자일시</TableCell>
+            <><Typography className={classes.heading}>현재 보유 종목</Typography><TableContainer component={Paper} className={classes.root}>
+          <Table className={classes.table} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell>종목</TableCell>
+                <TableCell align="right">보유수량</TableCell>
+                <TableCell align="right">투자금액&nbsp;(원)</TableCell>
+                <TableCell align="right">매수금액&nbsp;(원)</TableCell>
+                <TableCell align="right">매도금액&nbsp;(원)</TableCell>
+                <TableCell align="right">최초투자일시</TableCell>
+                <TableCell align="right">최근투자일시</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {datas.map((data) => (
+                <TableRow key={data.NAME}>
+                  <TableCell component="th" scope="row">
+                    {data.NAME}
+                  </TableCell>
+                  <TableCell align="right">{data.CURRENT_COUNT}</TableCell>
+                  <TableCell align="right">{data.CURRENT_MONEY.toLocaleString()}</TableCell>
+                  <TableCell align="right">{data.BUY_MONEY.toLocaleString()}</TableCell>
+                  <TableCell align="right">{data.SELL_MONEY.toLocaleString()}</TableCell>
+                  <TableCell align="right">{data.FIRST_DAY.substring(0, 10)}</TableCell>
+                  <TableCell align="right">{!data.CURRENT_DAY ? '' : data.CURRENT_DAY.substring(0, 10)}</TableCell>
                 </TableRow>
-              </TableHead>
-              <TableBody>
-                {datas.map((data) => (
-                  <TableRow key={data.NAME}>
-                    <TableCell component="th" scope="row">
-                      {data.NAME}
-                    </TableCell>
-                    <TableCell align="right">{data.CURRENT_COUNT}</TableCell>
-                    <TableCell align="right">{data.CURRENT_MONEY.toLocaleString()}</TableCell>
-                    <TableCell align="right">{data.BUY_MONEY.toLocaleString()}</TableCell>
-                    <TableCell align="right">{data.SELL_MONEY.toLocaleString()}</TableCell>
-                    <TableCell align="right">{data.FIRST_DAY.substring(0,10)}</TableCell>
-                    <TableCell align="right">{!data.CURRENT_DAY ? '' : data.CURRENT_DAY.substring(0,10)}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer></>
     )
 }
 
