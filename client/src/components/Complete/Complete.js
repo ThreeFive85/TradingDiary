@@ -56,8 +56,16 @@ const Complete = () => {
                 <StyledTableCell align="right">{(data.sell_money).toLocaleString()}</StyledTableCell>
                 <StyledTableCell align="right">{data.first_day.substring(0,10)}</StyledTableCell>
                 <StyledTableCell align="right">{data.final_day.substring(0,10)}</StyledTableCell>
-                <StyledTableCell align="right">{Math.round(((data.sell_money/data.buy_money)-1)* 100)}</StyledTableCell>
-                <StyledTableCell align="right">{(data.sell_money - data.buy_money).toLocaleString()}</StyledTableCell>
+                <StyledTableCell align="right">{Math.round(((data.sell_money/data.buy_money)-1)* 100) > 0 ? 
+                  <Typography color="secondary">{Math.round(((data.sell_money/data.buy_money)-1)* 100)}</Typography> :
+                  <Typography color="primary">{Math.round(((data.sell_money/data.buy_money)-1)* 100)}</Typography>
+                    }
+                </StyledTableCell>
+                <StyledTableCell align="right">{(data.sell_money - data.buy_money) > 0 ?
+                  <Typography color="secondary">{(data.sell_money - data.buy_money).toLocaleString()}</Typography> :
+                  <Typography color="primary">{(data.sell_money - data.buy_money).toLocaleString()}</Typography>
+                    }
+                </StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>
