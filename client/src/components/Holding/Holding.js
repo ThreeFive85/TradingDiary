@@ -7,7 +7,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-
+import Button from '@material-ui/core/Button';
 
 import { getCurrent } from '../../actions/current';
 
@@ -39,6 +39,7 @@ const Holding = () => {
                 <TableCell align="right">매도금액&nbsp;(원)</TableCell>
                 <TableCell align="right">최초투자일시</TableCell>
                 <TableCell align="right">최근투자일시</TableCell>
+                <TableCell align="center">매수/매도</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -53,6 +54,14 @@ const Holding = () => {
                   <TableCell align="right">{data.SELL_MONEY.toLocaleString()}</TableCell>
                   <TableCell align="right">{data.FIRST_DAY.substring(0, 10)}</TableCell>
                   <TableCell align="right">{!data.CURRENT_DAY ? '' : data.CURRENT_DAY.substring(0, 10)}</TableCell>
+                  <TableCell align="center">
+                    <Button className={classes.choice} variant="outlined" color="primary" size="small" href="#outlined-buttons">
+                      Buy
+                    </Button>
+                    <Button className={classes.choice} variant="outlined" color="primary" size="small" href="#outlined-buttons">
+                      Sell
+                    </Button>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
