@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
 import FormControl from '@material-ui/core/FormControl';
 import Button from '@material-ui/core/Button';
@@ -13,14 +13,14 @@ import DateFnsUtils from '@date-io/date-fns';
 import 'date-fns';
 
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import useStyles from './styles';
 import {createDiary} from '../../actions/posts';
 import {getCurrent} from '../../actions/current';
 import { format } from 'date-fns';
 
-const Record = () => {
+const Record = ({currentId, setCurrentId}) => {
 
   const [postData, setPostData] = useState({
     "종목명" : '',
@@ -31,8 +31,9 @@ const Record = () => {
     "매매금액": '',
     "매매일자": new Date(),
   })
-
+// console.log(postData)
   const clear = () => {
+    setCurrentId(null);
     setPostData({
       "종목명" : '',
       "종목형태": '',
@@ -45,14 +46,33 @@ const Record = () => {
   }
 
   const dispatch = useDispatch();
+// console.log('currentId', currentId)
+  const post = useSelector((state) => (currentId ? state.current.find((message) => message === currentId[0]) : null));
+// console.log('postData', postData)
+// console.log('post', post)
+  useEffect(() => {
+    if(post) setPostData({
+      "종목명" : post.NAME,
+      "종목형태": post.VALUE,
+      "매매형태": currentId[1],
+      "매매단가": '',
+      "매매수량": '',
+      "매매금액": '',
+      "매매일자": new Date(),
+    });
+}, [currentId, post]);
 
   const classes = useStyles();
 
     const handleSubmit = (e) => {
       e.preventDefault();
-      dispatch(createDiary(postData));
-      console.log(postData)
-      clear()
+      if(!postData.종목명 || !postData.종목형태 || !postData.매매형태 || !postData.매매단가 || !postData.매매수량 || !postData.매매금액){
+        alert('입력을 모두 해주세요')
+      } else {
+        dispatch(createDiary(postData));
+        console.log(postData)
+        clear()
+      }
     }
 
     const handleChange = (e) => {
@@ -63,7 +83,7 @@ const Record = () => {
   return (
     <form className={classes.root} noValidate autoComplete="off">
         <TextField id="standard-basic" label="종목명" 
-        value={postData.종목명}
+        value={postData.종목명 || ''}
         onChange={(e) => setPostData({
           ...postData,
           '종목명': e.target.value
@@ -74,7 +94,7 @@ const Record = () => {
         <Select
           labelId="demo-simple-select-outlined-label"
           id="demo-simple-select-outlined"
-          value={postData.종목형태}
+          value={postData.종목형태 || ''}
           onChange={(e) => setPostData({
             ...postData,
             '종목형태': e.target.value
@@ -91,7 +111,7 @@ const Record = () => {
           <Select
           labelId="demo-simple-select-outlined-label"
           id="demo-simple-select-outlined"
-          value={postData.매매형태}
+          value={postData.매매형태 || ''}
           onChange={(e) => setPostData({
             ...postData,
             '매매형태': e.target.value
@@ -103,14 +123,14 @@ const Record = () => {
           </Select>
         </FormControl>
         <TextField id="standard-basic" label="매매단가" 
-          value={postData.매매단가}
+          value={postData.매매단가 || ''}
           onChange={(e) => setPostData({
             ...postData,
             '매매단가': Number(e.target.value)
           })}
         />
         <TextField id="standard-basic" label="매매수량" 
-          value={postData.매매수량}
+          value={postData.매매수량 || ''}
           type='number'
           onChange={(e) => setPostData({
             ...postData,
@@ -118,7 +138,7 @@ const Record = () => {
           })}
         />
         <TextField id="standard-basic" label="매매금액" 
-          value={postData.매매금액}
+          value={postData.매매금액 || ''}
           onChange={(e) => setPostData({
             ...postData,
             '매매금액': Number(e.target.value)
