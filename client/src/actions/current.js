@@ -9,3 +9,13 @@ export const getCurrent = () => async (dispatch) => {
         console.log(error.message);
     }
 }
+
+export const updateCurrent = (name) => async (dispatch) => {
+    try {
+        const {data} = await api.updateCurrent(name);
+
+        dispatch({ type: 'UPDATE_CUR', payload: data });
+    } catch (error) {
+        console.log(error.message);
+    }
+}
