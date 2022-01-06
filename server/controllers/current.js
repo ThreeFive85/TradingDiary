@@ -6,7 +6,7 @@ const pool = mysql.createPool(db);
 export const getCurrentStock = async(req, res) => { // async, await
 
     const connection = await pool.getConnection();
-    let query = 'SELECT NAME, '+
+    let query = 'SELECT NAME, VALUE,'+
     `replace(CURRENT_COUNT, '.00000000', '') AS CURRENT_COUNT, `+
     'CURRENT_MONEY, BUY_MONEY, SELL_MONEY, FIRST_DAY, CURRENT_DAY '+
     'FROM currentStock WHERE CURRENT_COUNT > 0'
@@ -42,6 +42,27 @@ export const getCurrentStock = async(req, res) => { // async, await
             }
         }
         res.status(202).json(result1[0])
+    } catch (err) {
+        console.log(err)
+    } finally {
+        connection.release()
+    }
+}
+
+export const updateCurrent = async(req, res) => { // async, await
+
+    const {name} = req.params;
+    // console.log(name)
+
+    const connection = await pool.getConnection();
+    let query = 'SELECT NAME, VALUE FROM currentStock WHERE NAME=?'
+
+    try {
+        let result = await connection.query(query, [name])
+        if (result[0].length < 1) {
+            console.log("nothing")
+        }
+        res.status(202).json(result[0])
     } catch (err) {
         console.log(err)
     } finally {
