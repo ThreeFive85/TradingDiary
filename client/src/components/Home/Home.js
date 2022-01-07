@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Grow, Grid } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 
@@ -9,7 +9,7 @@ import {getCurrent} from '../../actions/current';
 // import useStyles from '../../styles';
 
 function Home() {
-    // const [currentId, setCurrentId] = useState(null);
+    const [currentId, setCurrentId] = useState(null);
     // const classes = useStyles();
     const dispatch = useDispatch();
 
@@ -22,10 +22,10 @@ function Home() {
             <Container>
                 {/* <Grid className={classes.mainContainer} container justify="space-between" alignItems="stretch" spacing={3}> */}
                     <Grid >
-                        <Holding />
+                        <Holding setCurrentId={setCurrentId}/>
                     </Grid>
                     <Grid >
-                        <Record />
+                        <Record currentId={currentId} setCurrentId={setCurrentId}/>
                     </Grid>
                 {/* </Grid> */}
             </Container>
