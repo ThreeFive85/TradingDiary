@@ -4,7 +4,7 @@ export default (current = [], action) => {
         // case DELETE:
         //     return posts.filter((post) => post._id !== action.payload);
         // case "UPDATE_CUR":
-        //     return current.map((post) => post._name === action.payload._name ? action.payload : post);
+        //     return current.map((post) => post);
         case "FETCH_ALL_CUR":
             return action.payload;
         // case "CREATE_CUR":
