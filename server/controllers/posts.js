@@ -52,6 +52,7 @@ export const createDiary = async(req, res) => { // async, await
 
     const insertCurrentData = {
         NAME: 종목명, 
+        VALUE: 종목형태,
         CURRENT_COUNT: 매매수량, 
         CURRENT_MONEY: 매매금액, 
         BUY_MONEY: 매매금액, 
