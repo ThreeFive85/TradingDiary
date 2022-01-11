@@ -15,7 +15,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import useStyles from './styles';
 
-const Holding = () => {
+const Holding = ({setCurrentId}) => {
     const classes = useStyles();
 
     const dispatch = useDispatch();
@@ -33,6 +33,7 @@ const Holding = () => {
             <TableHead>
               <TableRow>
                 <TableCell>종목</TableCell>
+                <TableCell align="right">분류</TableCell>
                 <TableCell align="right">보유수량</TableCell>
                 <TableCell align="right">투자금액&nbsp;(원)</TableCell>
                 <TableCell align="right">매수금액&nbsp;(원)</TableCell>
@@ -48,6 +49,7 @@ const Holding = () => {
                   <TableCell component="th" scope="row">
                     {data.NAME}
                   </TableCell>
+                  <TableCell align="right">{data.VALUE}</TableCell>
                   <TableCell align="right">{data.CURRENT_COUNT}</TableCell>
                   <TableCell align="right">{data.CURRENT_MONEY.toLocaleString()}</TableCell>
                   <TableCell align="right">{data.BUY_MONEY.toLocaleString()}</TableCell>
@@ -55,10 +57,10 @@ const Holding = () => {
                   <TableCell align="right">{data.FIRST_DAY.substring(0, 10)}</TableCell>
                   <TableCell align="right">{!data.CURRENT_DAY ? '' : data.CURRENT_DAY.substring(0, 10)}</TableCell>
                   <TableCell align="center">
-                    <Button className={classes.choice} variant="outlined" color="primary" size="small" href="#outlined-buttons">
+                    <Button className={classes.choice} variant="outlined" color="primary" size="small" onClick={() => setCurrentId([data, '매수'])}>
                       Buy
                     </Button>
-                    <Button className={classes.choice} variant="outlined" color="primary" size="small" href="#outlined-buttons">
+                    <Button className={classes.choice} variant="outlined" color="primary" size="small" onClick={() => setCurrentId([data, '매도'])}>
                       Sell
                     </Button>
                   </TableCell>
