@@ -13,12 +13,12 @@ export default makeStyles((theme) => ({
       toolbar: {
         display: 'flex',
         justifyContent: 'flex-end',
-        width: '650px',
-        
+        width: '690px',
       },
       buttons: {
         '& > *': {
-          margin: theme.spacing(3),
+          margin: theme.spacing(5),
+          alignItems: 'center',
         },
       },
   }));

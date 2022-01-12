@@ -13,5 +13,8 @@ export default makeStyles((theme) => ({
         fontSize: theme.typography.pxToRem(35),
         fontWeight: theme.typography.fontWeightRegular,
       },
+      choice: {
+        margin: theme.spacing(0.5),
+      }
   }));
   
