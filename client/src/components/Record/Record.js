@@ -153,7 +153,7 @@ const Record = ({currentId, setCurrentId}) => {
             value={postData.매매일자}
             onChange={(e) => setPostData({
               ...postData,
-              '매매일자': format(new Date(e), 'yyyy/MM/dd')
+              '매매일자': format(new Date(e), 'yyyy/MM/dd 12:00:00')
             })}
             KeyboardButtonProps={{
               'aria-label': 'change date',
