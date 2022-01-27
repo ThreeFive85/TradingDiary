@@ -21,36 +21,68 @@ const Points = () => {
     const dispatch = useDispatch();
 
     const datas = useSelector((state) => state.points) 
+    // console.log(datas)
     
-    console.log(datas)
-
     useEffect(() => {
         dispatch(getPoints());
     }, [dispatch]);
-
-    let cnt = 0;
     
     return (
-    //   !datas.length ? <Typography>완료된 종목 데이터가 없습니다.</Typography> :
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="customized table">
           <TableHead>
             <TableRow>
-              <StyledTableCell>날짜</StyledTableCell>
-              <StyledTableCell align="right">지수</StyledTableCell>
-              <StyledTableCell align="right">변동량</StyledTableCell>
-              <StyledTableCell align="right">변동율</StyledTableCell>
+              <StyledTableCell align="cn">날짜</StyledTableCell>
+              <StyledTableCell align="cn">코스피/코스닥</StyledTableCell>
+              <StyledTableCell align="cn">지수</StyledTableCell>
+              <StyledTableCell align="cn">변동량</StyledTableCell>
+              <StyledTableCell align="cn">변동율</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {datas.map((data) => (
               <StyledTableRow key={data.id}>
                 <StyledTableCell component="th" scope="row">
-                  {data.day}
+                  {data.day+'('+data.date+')'}
                 </StyledTableCell>
-                <StyledTableCell align="right">{data.point}</StyledTableCell>
-                <StyledTableCell align="right">{data.count}</StyledTableCell>
-                <StyledTableCell align="right">{data.rate}</StyledTableCell>
+                <StyledTableCell align="cn">
+                    <Typography>코스피</Typography>
+                    <br/>
+                    <Typography>코스닥</Typography>
+                </StyledTableCell>
+                <StyledTableCell align="cn">
+                    {parseFloat(data.rate.split(' ')[0]) > 0 ? 
+                        <Typography color="secondary">{data.point.split(' ')[0].toLocaleString()}</Typography> : 
+                        <Typography color="primary">{data.point.split(' ')[0].toLocaleString()}</Typography>
+                    }
+                    <br/>
+                    {parseFloat(data.rate.split(' ')[1]) > 0 ? 
+                        <Typography color="secondary">{data.point.split(' ')[1].toLocaleString()}</Typography> : 
+                        <Typography color="primary">{data.point.split(' ')[1].toLocaleString()}</Typography>
+                    }
+                </StyledTableCell>
+                <StyledTableCell align="cn">
+                    {parseFloat(data.rate.split(' ')[0]) > 0 ? 
+                        <Typography color="secondary">{data.count.split(' ')[0].toLocaleString()}</Typography> : 
+                        <Typography color="primary">{data.count.split(' ')[0].toLocaleString()}</Typography>
+                    }
+                    <br/>
+                    {parseFloat(data.rate.split(' ')[1]) > 0 ? 
+                        <Typography color="secondary">{data.count.split(' ')[1].toLocaleString()}</Typography> : 
+                        <Typography color="primary">{data.count.split(' ')[1].toLocaleString()}</Typography>
+                    }
+                </StyledTableCell>
+                <StyledTableCell align="cn">
+                    {parseFloat(data.rate.split(' ')[0]) > 0 ? 
+                        <Typography color="secondary">{data.rate.split(' ')[0].toLocaleString()+'%'}</Typography> : 
+                        <Typography color="primary">{data.rate.split(' ')[0].toLocaleString()+'%'}</Typography>
+                    }
+                    <br/>
+                    {parseFloat(data.rate.split(' ')[1]) > 0 ? 
+                        <Typography color="secondary">{data.rate.split(' ')[1].toLocaleString()+'%'}</Typography> : 
+                        <Typography color="primary">{data.rate.split(' ')[1].toLocaleString()+'%'}</Typography>
+                    }
+                </StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>
