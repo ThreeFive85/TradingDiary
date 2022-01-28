@@ -21,6 +21,9 @@ const HeaderBar = () => {
           <Button component={Link} to="/complete" variant="contained" color="secondary">
             rate
           </Button>
+          <Button component={Link} to="/points" variant="contained" color="secondary">
+            stock points
+          </Button>
           </div>
         </Toolbar>
       </AppBar>
