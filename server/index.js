@@ -6,6 +6,7 @@ import cors from 'cors';
 import postRoutes from './routes/posts.js';
 import currentRoutes from './routes/current.js';
 import completeRoutes from './routes/complete.js';
+import pointsRoutes from './routes/points.js';
 import { db } from './config/db.js';
 
 const app = express();
@@ -16,6 +17,7 @@ app.use(cors());
 app.use('/diary', postRoutes);
 app.use('/current', currentRoutes);
 app.use('/complete', completeRoutes);
+app.use('/points', pointsRoutes);
 
 
 const PORT = process.env.PORT || 4000;
