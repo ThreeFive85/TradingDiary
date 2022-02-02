@@ -6,6 +6,7 @@ import HeaderBar from './components/HeaderBar/HeaderBar';
 import Home from './components/Home/Home';
 import History from './components/History/History';
 import Complete from './components/Complete/Complete';
+import Points from './components/Points/Points';
 
 const App = () => {
     return (
@@ -16,6 +17,7 @@ const App = () => {
                     <Route exact={true} path={"/"} element={<Home/>} />
                     <Route exact={true} path={"/diary"} element={<History/>} />
                     <Route exact={true} path={"/complete"} element={<Complete/>} />
+                    <Route exact={true} path={"/points"} element={<Points/>} />
                 </Routes>
             </Container>
         </BrowserRouter>
