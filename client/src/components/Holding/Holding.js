@@ -28,8 +28,11 @@ const Holding = ({setCurrentId}) => {
     }, [dispatch]);
     return (
       !datas.length ? <div>현재 보유 종목 데이터가 없습니다</div> :
-            <><Typography className={classes.heading}>현재 보유 종목</Typography><TableContainer component={Paper} className={classes.root}>
-          <Table className={classes.table} aria-label="simple table">
+          <><><div>
+          <Typography className={classes.heading}>현재 보유 종목</Typography>
+        </div></>
+        <TableContainer component={Paper}>
+        <Table className={classes.table} aria-label="simple table">
             <TableHead>
               <TableRow>
                 <TableCell>종목</TableCell>
@@ -68,7 +71,7 @@ const Holding = ({setCurrentId}) => {
               ))}
             </TableBody>
           </Table>
-        </TableContainer></>
+          </TableContainer></>
     )
 }
 
