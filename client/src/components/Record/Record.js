@@ -81,7 +81,8 @@ const Record = ({currentId, setCurrentId}) => {
     }
 
   return (
-    <form className={classes.root} noValidate autoComplete="off">
+    <form  noValidate autoComplete="off">
+      <div className={classes.root}>
         <TextField id="standard-basic" label="종목명" 
         value={postData.종목명 || ''}
         onChange={(e) => setPostData({
@@ -89,11 +90,11 @@ const Record = ({currentId, setCurrentId}) => {
           '종목명': e.target.value
         })}
         />
-        <FormControl variant="outlined" className={classes.formControl}>
-        <InputLabel id="demo-simple-select-outlined-label">종목형태</InputLabel>
+        <FormControl className={classes.formControl}>
+        <InputLabel id="demo-simple-select-label">종목형태</InputLabel>
         <Select
-          labelId="demo-simple-select-outlined-label"
-          id="demo-simple-select-outlined"
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
           value={postData.종목형태 || ''}
           onChange={(e) => setPostData({
             ...postData,
@@ -105,23 +106,25 @@ const Record = ({currentId, setCurrentId}) => {
           <MenuItem value={"코스닥"}>코스닥</MenuItem>
           <MenuItem value={"코인"}>코인</MenuItem>
         </Select>
-      </FormControl>
-        <FormControl variant="outlined" className={classes.formControl}>
-          <InputLabel id="demo-simple-select-outlined-label">매매형태</InputLabel>
-          <Select
-          labelId="demo-simple-select-outlined-label"
-          id="demo-simple-select-outlined"
-          value={postData.매매형태 || ''}
-          onChange={(e) => setPostData({
-            ...postData,
-            '매매형태': e.target.value
-          })}
-          label="매매형태" 
-          >
-            <MenuItem value={"매수"}>매수</MenuItem>
-            <MenuItem value={"매도"}>매도</MenuItem>
-          </Select>
         </FormControl>
+          <FormControl className={classes.formControl}>
+            <InputLabel id="demo-simple-select-label">매매형태</InputLabel>
+            <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={postData.매매형태 || ''}
+            onChange={(e) => setPostData({
+              ...postData,
+              '매매형태': e.target.value
+            })}
+            label="매매형태" 
+            >
+              <MenuItem value={"매수"}>매수</MenuItem>
+              <MenuItem value={"매도"}>매도</MenuItem>
+            </Select>
+        </FormControl>
+      </div>
+      <div className={classes.root}>
         <TextField id="standard-basic" label="매매단가" 
           value={postData.매매단가 || ''}
           onChange={(e) => setPostData({
@@ -144,7 +147,9 @@ const Record = ({currentId, setCurrentId}) => {
             '매매금액': Number(e.target.value)
           })}
         />
-      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+      </div>
+      <div className={classes.root}>
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <KeyboardDatePicker
             margin="normal"
             id="date-picker-dialog"
@@ -161,23 +166,24 @@ const Record = ({currentId, setCurrentId}) => {
           />
         </MuiPickersUtilsProvider>
         <Button
-          size="small"
-          variant="outlined"
-          color="primary"
-          onClick={handleSubmit}
+            size="large"
+            variant="outlined"
+            color="primary"
+            onClick={handleSubmit}
         >
           <KeyboardArrowRightIcon fontSize="small" /> 등록
         </Button>
         <Button
-        variant="contained"
-        color="primary"
-        size="small"
-        className={classes.button}
-        startIcon={<SyncTwoToneIcon />}
-        onClick={handleChange}
+          variant="contained"
+          color="primary"
+          size="large"
+          className={classes.button}
+          startIcon={<SyncTwoToneIcon />}
+          onClick={handleChange}
         >
-        보유 종목 확인
+          확인
         </Button>
+      </div>
       </form>
   );
 }
