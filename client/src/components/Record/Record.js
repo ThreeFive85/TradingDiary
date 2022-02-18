@@ -13,6 +13,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 import AddIcon from '@material-ui/icons/Add';
+import RefreshIcon from '@material-ui/icons/Refresh';
 import Fab from '@material-ui/core/Fab';
 
 import DateFnsUtils from '@date-io/date-fns';
@@ -22,7 +23,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import useStyles from './styles';
 import {createDiary} from '../../actions/posts';
-import {getCurrent} from '../../actions/current';
+import {getCurrent, createCurrent, updateCurrent} from '../../actions/current';
 import { format } from 'date-fns';
 
 const Record = ({currentId, setCurrentId}) => {
@@ -77,7 +78,20 @@ const Record = ({currentId, setCurrentId}) => {
       alert('입력을 모두 해주세요')
     } else {
       dispatch(createDiary(postData));
-      console.log(postData)
+      dispatch(createCurrent(postData));
+      // console.log(postData)
+      handleClose();
+    }
+  }
+
+  const handleUpdate = (e) => {
+    e.preventDefault();
+    if(!postData.종목명 || !postData.종목형태 || !postData.매매형태 || !postData.매매단가 || !postData.매매수량 || !postData.매매금액){
+      alert('입력을 모두 해주세요')
+    } else {
+      dispatch(createDiary(postData));
+      dispatch(updateCurrent(postData));
+      // console.log(postData)
       handleClose();
     }
   }
@@ -100,6 +114,9 @@ const Record = ({currentId, setCurrentId}) => {
     <div>
       <Fab color="primary" className={classes.fab} onClick={handleClickOpen}>
         <AddIcon />
+      </Fab>
+      <Fab color="secondary" className={classes.fab} onClick={handleChange}>
+        <RefreshIcon />
       </Fab>
         <Dialog open={post ? true : open} onClose={handleClose} aria-labelledby="form-dialog-title">
           <DialogTitle id="form-dialog-title">{post ? '수정' : '등록'}</DialogTitle>
@@ -199,7 +216,7 @@ const Record = ({currentId, setCurrentId}) => {
             <Button onClick={handleClose} color="primary">
               취소
             </Button>
-            <Button onClick={handleSubmit} color="primary">
+            <Button onClick={post ? handleUpdate : handleSubmit} color="primary">
               등록
             </Button>
           </DialogActions>
