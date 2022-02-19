@@ -16,5 +16,9 @@ export default makeStyles((theme) => ({
   button: {
     margin: theme.spacing(1),
   },
+  fab: {
+    margin: theme.spacing(2),
+    left: theme.spacing(2),
+  },
   }));
   
