@@ -10,11 +10,27 @@ export const getCurrent = () => async (dispatch) => {
     }
 }
 
-export const updateCurrent = (name) => async (dispatch) => {
+export const createCurrent = (post) => async (dispatch) => {
+    // console.log("post : ", post)
     try {
-        const {data} = await api.updateCurrent(name);
+        const {data} = await api.createCurrent(post);
+        // console.log("actions data : ", data)
+        dispatch({ type: 'CREATE_CUR', payload: data})
+    } catch (error) {
+        console.log(error)
+    }
+}
 
-        dispatch({ type: 'UPDATE_CUR', payload: data });
+export const updateCurrent = (post) => async (dispatch) => {
+    try {
+        const {data} = await api.updateCurrent(post);
+        // console.log("data : ", data)
+        if(data.message){
+            dispatch({ type: 'DELETE', payload: post.종목명 });
+        } else {
+            dispatch({ type: 'UPDATE_CUR', payload: data });
+        }
+
     } catch (error) {
         console.log(error.message);
     }
