@@ -1,9 +1,10 @@
 import express from 'express';
 
-import { getCurrentStock, updateCurrent } from '../controllers/current.js';
+import { getCurrentStock, updateCurrent, createCurrent } from '../controllers/current.js';
 
 const router = express.Router();
 
 router.get('/', getCurrentStock);
-router.get('/:name', updateCurrent);
+router.post('/update', updateCurrent);
+router.post('/', createCurrent);
 export default router;
