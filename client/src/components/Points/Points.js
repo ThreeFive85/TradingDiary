@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableContainer from '@material-ui/core/TableContainer';
@@ -11,10 +11,17 @@ import IconButton from '@material-ui/core/IconButton';
 import AddCircleOutlineRoundedIcon from '@material-ui/icons/AddCircleOutlineRounded';
 import CommentTwoToneIcon from '@material-ui/icons/CommentTwoTone';
 
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+
 import {useStyles, StyledTableCell, StyledTableRow} from './styles.js';
 import Typography from '@material-ui/core/Typography';
 
-import { getPoints } from '../../actions/points';
+import { getPoints, updatePoints } from '../../actions/points';
 
 import { useSelector } from 'react-redux';
 
@@ -22,11 +29,38 @@ import { useDispatch } from 'react-redux';
 
 const Points = () => {
     const classes = useStyles();
-
     const dispatch = useDispatch();
-
-    const datas = useSelector((state) => state.points) 
+    const datas = useSelector((state) => state.points)
     // console.log(datas)
+    
+    const [memo, setMemo] = useState({
+      "date" : '',
+      "title": '',
+      "url": '',
+    })
+
+    const [open, setOpen] = React.useState(false);
+
+    const handleClose = () => {
+      setOpen(false);
+      setMemo({
+        "date" : '',
+        "title": '',
+        "url": '',
+      })
+    };
+
+    const memoSubmit = (e) => {
+      e.preventDefault();
+      dispatch(updatePoints(memo));
+      // console.log(memo);
+      setMemo({
+        "date" : '',
+        "title": '',
+        "url": '',
+      })
+      setOpen(false);
+    };
 
     useEffect(() => {
         dispatch(getPoints());
@@ -100,7 +134,7 @@ const Points = () => {
                     </Typography>
                   :
                     <Tooltip title="Add Memo">
-                      <IconButton>
+                      <IconButton onClick={() => [setMemo({'date': data.day }), setOpen(true)]}>
                         <AddCircleOutlineRoundedIcon />
                       </IconButton>
                     </Tooltip>
@@ -110,6 +144,35 @@ const Points = () => {
             ))}
           </TableBody>
         </Table>
+        <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+          <DialogTitle id="form-dialog-title">Memo</DialogTitle>
+          <DialogContent>
+            <TextField
+              autoFocus
+              margin="dense"
+              id="title"
+              label="제목"
+              fullWidth
+              onChange={(e) => setMemo({ ...memo, 'title': e.target.value })}
+            />
+            <TextField
+              autoFocus
+              margin="dense"
+              label="URL"
+              id="url"
+              fullWidth
+              onChange={(e) => setMemo({ ...memo, 'url': e.target.value })}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose} color="primary">
+              Cancel
+            </Button>
+            <Button onClick={memoSubmit} color="primary">
+              Submit
+            </Button>
+          </DialogActions>
+        </Dialog>
       </TableContainer>
     )
 }
