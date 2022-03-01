@@ -50,23 +50,6 @@ export const createDiary = async(req, res) => { // async, await
 
     const {종목명, 종목형태, 매매형태, 매매단가, 매매수량, 매매금액, 매매일자} = req.body;
 
-    const insertCurrentData = {
-        NAME: 종목명, 
-        VALUE: 종목형태,
-        CURRENT_COUNT: 매매수량, 
-        CURRENT_MONEY: 매매금액, 
-        BUY_MONEY: 매매금액, 
-        SELL_MONEY: 0,
-        FIRST_DAY: 매매일자
-    }
-
-    const insertCurrentQuery = 'insert into currentStock set ?'
-    const selectQuery = 'select NAME from currentStock where NAME = '
-    const plusQuery = 'update currentStock set current_count = current_count + ?,'+
-                        'CURRENT_MONEY = CURRENT_MONEY + ?, BUY_MONEY = BUY_MONEY + ?, CURRENT_DAY=? where NAME = '
-    const minusQuery = 'update currentStock set current_count = current_count - ?, '+
-                        'CURRENT_MONEY = CURRENT_MONEY - ?, SELL_MONEY = SELL_MONEY + ?, CURRENT_DAY=? where NAME = '
-
     // console.log(req.body)
 
     const connection = await pool.getConnection();
@@ -82,26 +65,6 @@ export const createDiary = async(req, res) => { // async, await
         const result = await connection.query(query, [data[0].insertId])
         res.status(202).json(result[0][0])
                 
-        if(매매형태 === '매수'){
-            const [result1, fields] = await connection.query(selectQuery+mysql.escape(req.body.종목명), {NAME:종목명})
-            if (result1[0] === undefined ) {
-                const [createData, fields1] = await connection.query(insertCurrentQuery, insertCurrentData)
-                res.status(202).json(createData[0])
-            } else {
-                const current_count = 매매수량
-                const current_money = 매매금액
-                const current_day = 매매일자
-                const [plusData, fields2] = await connection.query(plusQuery+mysql.escape(req.body.종목명), [current_count, current_money, current_money, current_day])
-                // console.log(plusData)
-                res.status(202).json(plusData[0])
-            }
-        } else {
-            const current_count = 매매수량
-            const current_money = 매매금액
-            const current_day = 매매일자
-            const [minusData, fields2] = await connection.query(minusQuery+mysql.escape(req.body.종목명), [current_count, current_money, current_money, current_day])
-            res.status(202).json(minusData[0])
-        }
     } catch (err) {
         console.log(err)
     } finally {
