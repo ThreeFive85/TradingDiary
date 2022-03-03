@@ -20,8 +20,11 @@ export const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
-export const useStyles = makeStyles({
+export const useStyles = makeStyles((theme) => ({
   table: {
     minWidth: 700,
   },
-});
+  typography: {
+    padding: theme.spacing(2),
+  },
+}));
