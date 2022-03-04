@@ -1,9 +1,10 @@
 import express from 'express';
 
-import { getPoints } from '../controllers/points.js';
+import { getPoints, updatePoints } from '../controllers/points.js';
 
 const router = express.Router();
 
 router.get('/', getPoints);
+router.post('/update', updatePoints);
 
 export default router;
